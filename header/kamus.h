@@ -15,6 +15,7 @@ struct vertex
 struct edge
 {
     char        vertexID;
+    adrVertex   link;
     int         cost;
     adrEdge     next;
 };
@@ -78,9 +79,22 @@ void running(adrUser player);
 /*
 Procedure errorInput
 IS: -
-FS: Menampilkan pesar input user tidak sesuai
+FS: Menampilkan pesan input user tidak sesuai
 */
 void errorInput();
+
+/*
+Procedure start
+IS: -
+FS: Menampilkan pesan game sudah berjalan
+*/
+void start();
+
+/*
+IS: -
+FS: Menampilkan pesan energi kurang untuk melakukan gerakan
+*/
+void kurangEnergy();
 
 //==================================================================================================================================
 
@@ -117,10 +131,10 @@ adrVertex createVertex(char id);
 
 /*
 Function createEdge
-IS: Terdefinisi vertexID dengan tipe character dan cost dengan tipe integer
+IS: Terdefinisi graph G, vertexID dengan tipe character, dan cost dengan tipe integer
 FS: Mengembalikan edge dengan id dan cost yang terisi serta next yang bernilai NULL
 */
-adrEdge createEdge(char id, int cost);
+adrEdge createEdge(graph G, char id, int cost);
 
 /*
 Procedure buildGraph
@@ -157,9 +171,10 @@ void startGame(graph &G, adrUser &p);
 
 /*
 Procedure playerMovement
-IS: Terdefinisi
-FS:
+IS: Terdefinisi graph G dan adrUser p
+FS: Menampilkan opsi gerak player
 */
 void playerMovement(graph G, adrUser &p);
+
 
 #endif // KAMUS_H

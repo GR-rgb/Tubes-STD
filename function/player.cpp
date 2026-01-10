@@ -18,7 +18,7 @@ void startGame(graph &G, adrUser &p) // Meminta input level dari user dan mengin
             exitGame();
             exit(0);
         case 1:
-            p->energi = 100;
+            p->energi = 20;
             valid = true;
             break;
         case 2:
@@ -41,14 +41,23 @@ void playerMovement(graph G, adrUser &p) // Menangani pergerakan player
     char pergi;
     running(p); // Menampilkan opsi gerak user
     cin >> pergi;
-    adrEdge e = searchEdge(p->lokasi, pergi); // Mencari edge sesuai input user
-    if (e == nullptr)
+    if (pergi == 'X')
     {
-        errorInput();
+        p->energi = -1;
     } else
     {
-        p->lokasi = searchVertex(G, e->vertexID);
-        p->energi -= e->cost;
+        adrEdge e = searchEdge(p->lokasi, pergi); // Mencari edge sesuai input user
+        if (e == nullptr)
+        {
+            errorInput();
+        } else if (p->energi >= e->cost)
+        {
+            p->lokasi = e->link;
+            p->energi -= e->cost;
+        } else
+        {
+            kurangEnergy();
+        }
     }
 }
 

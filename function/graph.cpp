@@ -45,12 +45,13 @@ adrVertex createVertex(char id)
     v->next = nullptr;
     return v;
 }
-adrEdge createEdge(char id, int cost) 
+adrEdge createEdge(graph G, char id, int cost) 
 {
     adrEdge e = new edge;
     e->vertexID = id;
     e->cost = cost;
     e->next = nullptr;
+    e->link = searchVertex(G, id);
     return e;
 }
 void buildGraph(graph &G, int level)
@@ -65,36 +66,36 @@ void buildGraph(graph &G, int level)
         addVertex(G, createVertex('F'));
         
         // A (Start)
-        addEdge(G, searchVertex(G, 'A'), createEdge('C', 2));
-        addEdge(G, searchVertex(G, 'A'), createEdge('B', 2));
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'C', 2));
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'B', 2));
         
         // B
-        addEdge(G, searchVertex(G, 'B'), createEdge('A', 2));
-        addEdge(G, searchVertex(G, 'B'), createEdge('C', 2));
-        addEdge(G, searchVertex(G, 'B'), createEdge('D', 2));
-        addEdge(G, searchVertex(G, 'B'), createEdge('E', 2));
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'A', 2));
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'C', 2));
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'D', 2));
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'E', 2));
         
         // C
-        addEdge(G, searchVertex(G, 'C'), createEdge('A', 2));
-        addEdge(G, searchVertex(G, 'C'), createEdge('B', 2));
-        addEdge(G, searchVertex(G, 'C'), createEdge('D', 2));
-        addEdge(G, searchVertex(G, 'C'), createEdge('E', 2));
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'A', 2));
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'B', 2));
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'D', 2));
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'E', 2));
         
         // D
-        addEdge(G, searchVertex(G, 'D'), createEdge('B', 2));
-        addEdge(G, searchVertex(G, 'D'), createEdge('C', 2));
-        addEdge(G, searchVertex(G, 'D'), createEdge('E', 2));
-        addEdge(G, searchVertex(G, 'D'), createEdge('F', 5)); // Ke Finish
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'B', 2));
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'C', 2));
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'E', 2));
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'F', 5)); // Ke Finish
         
         // E
-        addEdge(G, searchVertex(G, 'E'), createEdge('B', 2));
-        addEdge(G, searchVertex(G, 'E'), createEdge('C', 2));
-        addEdge(G, searchVertex(G, 'E'), createEdge('D', 2));
-        addEdge(G, searchVertex(G, 'E'), createEdge('F', 5)); // Ke Finish
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'B', 2));
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'C', 2));
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'D', 2));
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'F', 5)); // Ke Finish
         
         // F (Finish) - Bisa balik kalau mau iseng
-        addEdge(G, searchVertex(G, 'F'), createEdge('D', 5));
-        addEdge(G, searchVertex(G, 'F'), createEdge('E', 5));
+        addEdge(G, searchVertex(G, 'F'), createEdge(G, 'D', 5));
+        addEdge(G, searchVertex(G, 'F'), createEdge(G, 'E', 5));
     }
 
     // ==========================================
@@ -112,22 +113,22 @@ void buildGraph(graph &G, int level)
         addVertex(G, createVertex('F')); // Finish
 
         // A
-        addEdge(G, searchVertex(G, 'A'), createEdge('B', 10)); // Salah jalan
-        addEdge(G, searchVertex(G, 'A'), createEdge('C', 10)); // Jalan benar
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'B', 10)); // Salah jalan
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'C', 10)); // Jalan benar
 
         // B (Jalan Buntu, buang 20 energi total kalau bolak-balik)
-        addEdge(G, searchVertex(G, 'B'), createEdge('A', 10));
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'A', 10));
 
         // C
-        addEdge(G, searchVertex(G, 'C'), createEdge('D', 10)); // Jebakan
-        addEdge(G, searchVertex(G, 'C'), createEdge('E', 15)); // Jalan benar
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'D', 10)); // Jebakan
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'E', 15)); // Jalan benar
 
         // D (Jalan Buntu Jauh)
-        addEdge(G, searchVertex(G, 'D'), createEdge('C', 10));
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'C', 10));
 
         // E
-        addEdge(G, searchVertex(G, 'E'), createEdge('A', 25)); // Hati-hati balik ke start
-        addEdge(G, searchVertex(G, 'E'), createEdge('F', 15)); // FINISH
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'A', 25)); // Hati-hati balik ke start
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'F', 15)); // FINISH
     }
 
     // ==========================================
@@ -149,23 +150,23 @@ void buildGraph(graph &G, int level)
         addVertex(G, createVertex('F')); // Finish
 
         // A (Start)
-        addEdge(G, searchVertex(G, 'A'), createEdge('B', 5)); // Jebakan
-        addEdge(G, searchVertex(G, 'A'), createEdge('C', 20)); // Mahal
-        addEdge(G, searchVertex(G, 'A'), createEdge('D', 5)); // Jalan Benar
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'B', 5)); // Jebakan
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'C', 20)); // Mahal
+        addEdge(G, searchVertex(G, 'A'), createEdge(G, 'D', 5)); // Jalan Benar
 
         // Jalur Jebakan B-E-G (Kuru-kuru)
-        addEdge(G, searchVertex(G, 'B'), createEdge('E', 5));
-        addEdge(G, searchVertex(G, 'E'), createEdge('G', 5));
-        addEdge(G, searchVertex(G, 'G'), createEdge('B', 10)); // Loop setan
+        addEdge(G, searchVertex(G, 'B'), createEdge(G, 'E', 5));
+        addEdge(G, searchVertex(G, 'E'), createEdge(G, 'G', 5));
+        addEdge(G, searchVertex(G, 'G'), createEdge(G, 'B', 10)); // Loop setan
 
         // Jalur Benar D -> H -> I -> F
-        addEdge(G, searchVertex(G, 'D'), createEdge('H', 5)); 
-        addEdge(G, searchVertex(G, 'H'), createEdge('I', 10)); 
-        addEdge(G, searchVertex(G, 'I'), createEdge('F', 5)); // FINISH (Total cost 25, sisa 5)
+        addEdge(G, searchVertex(G, 'D'), createEdge(G, 'H', 5)); 
+        addEdge(G, searchVertex(G, 'H'), createEdge(G, 'I', 10)); 
+        addEdge(G, searchVertex(G, 'I'), createEdge(G, 'F', 5)); // FINISH (Total cost 25, sisa 5)
 
         // Jebakan C & J
-        addEdge(G, searchVertex(G, 'C'), createEdge('J', 5));
-        addEdge(G, searchVertex(G, 'J'), createEdge('A', 30)); // Reset game (mati)
+        addEdge(G, searchVertex(G, 'C'), createEdge(G, 'J', 5));
+        addEdge(G, searchVertex(G, 'J'), createEdge(G, 'A', 30)); // Reset game (mati)
     }
 }
 adrVertex searchVertex(graph G, char vertexID)

@@ -28,8 +28,8 @@ void gameOver()
 {
     string text = R"(
 +===============================+
-|    GAME OVER - ENERGI HABIS   |
-|    Kamu pingsan dijalan....   |
+|           GAME OVER           |
+|           NICE TRY            |
 +===============================+
 )";
     printf("%s", text.c_str());
@@ -45,21 +45,33 @@ void finish()
 }
 void running(adrUser player)
 {
+    string status = R"(
++===============================+
+|          STATUS GAME          |
++===============================+
+)";
     adrEdge p = player->lokasi->firstEdge;
     string text;
     while (p != nullptr)
     {
-        text += "Pergi ke ";
+        text += "  Pergi ke ";
         text += p->vertexID;
-        text += "\n";
+        text += " | Energy cost [";
+        text += to_string(p->cost);
+        text += "]\n";
         p = p->next;
     }
     
     printf(
+    "%s"
     "Posisi\t: %c\n"
     "Energi\t: %d\n"
+    "+-------------------------------+\n"
     "Pilihan Jalan\n%s"
-    "Pilihanmu: ",
+    "+-------------------------------+\n"
+    "Give Up masukan X\n"
+    "Masukan tujuan anda (ex. A):",
+    status.c_str(),
     player->lokasi->id,
     player->energi,
     text.c_str()
@@ -70,6 +82,26 @@ void errorInput()
     string text = R"(
 +===============================+
 |       INPUT TIDAK SESUAI      |
++===============================+
+)";
+    printf("%s", text.c_str());
+}
+void start()
+{
+    string text = R"(
++===============================+
+|           GAME START          |
++===============================+
+       ! Objektif game ! 
+       sampai di titik F
+)";
+    printf("%s", text.c_str());
+}
+void kurangEnergy()
+{
+string text = R"(
++===============================+
+|         ENERGY KURANG         |
 +===============================+
 )";
     printf("%s", text.c_str());

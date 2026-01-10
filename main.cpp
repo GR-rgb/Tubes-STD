@@ -10,6 +10,7 @@ int main()
 
     adrUser p = new player;
     startGame(G, p);
+    start();
 
     while (p->lokasi->id != 'F' && p->energi > 0)
     {
